@@ -1,7 +1,16 @@
 @echo off
 
-::set fileName=JavaTest
-set /p fileName=Enter file name: 
+::::Drag And Drop Filter
+set fileName=%1
+For %%A in ("%fileName%") do ( Set fileName=%%~nA )
+
+if "%fileName: =%" equ "" (
+set /p fileName=Enter file name:
+)
+
+::set fileName=Java000
+set fileName=%fileName: =%
+::set /p fileName=Enter file name: 
 set fileErrorName=%fileName: =%
 
 if not exist %fileErrorName% (
@@ -71,7 +80,7 @@ java %decName% %fileName% || set err=1
 del %decName%.class
 
 javac %fileName%.java || set err=1
-::del %fileName%.java
+::::del %fileName%.java
 set /p unlock=< %fileName%
 set unlock=%unlock: =%
 if "%unlock%" equ "4742727368694247" (
