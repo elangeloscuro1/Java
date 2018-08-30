@@ -33,6 +33,8 @@ if not exist "%fN%%fX%" ( set fExists=!errF! )
 
 for %%i in ("%fN%%fX%") do if not exist %%~si\nul set fIsDir=!errF!
 
+
+
 echo "==============================3"
 echo fN---------- "%fN%"
 echo fX---------- "%fX%"
@@ -46,9 +48,10 @@ echo fExists----- "%fExists%"
 echo fIsDir------ "%fIsDir%"
 echo "====================================================" %errVal%
 
-if %fIsDir% equ %errT% cd %fFPTH%
+
+
 set encName=Encoder
-set encJava=%encName%.java
+set encJava=%fFPTH%\%encName%.java
 
 echo import java.io.File; > %encJava%
 echo import java.io.FileNotFoundException; >> %encJava%
@@ -92,26 +95,50 @@ echo 		return true; >> %encJava%
 echo 	} >> %encJava%
 echo } >> %encJava%
 
-javac %encJava%
+if %fIsDir% equ %errT% 
+(
+	cd %fFPTH%
+	javac %encJava%
+	
+	
+	for %%i in (*) do 
+	(
+		for %%A in (%%i) do 
+		(
+			if "%%~xA" equ ".java" 
+			(
+				echo %%~nA
+				echo %%~xA
+				echo %%~nxA
+				java %encName% %%~nxA %%~nA
+			) 
+		) 
+	) 
+	 
+) 
+else 
+(
+	if "!fX!" equ ".java" 
+	(
+		javac %encJava%
+		for %%A in (%fFPTH%) do 
+		(
+			echo --------------------------------
+			echo %fFPTH%
+			echo %encName% %%~nxA %%~nA
+			echo %%~nxA
+			echo %%~nA
+			echo --------------------------------
+		) 
+	) 
+)
 
-if %fIsDir% equ %errT% (
-for %%i in (*) do (
-for %%A in (%%i) do (
-if "%%~xA" equ ".java" (
-if not "%%~nxA" equ "!encJava!" ( java !encName! %%~nxA %%~nA )
-) ) ) ) else (
-if "!fX!" equ ".java" (
-java !encName! !fNX! !fN! 
-) else (
+
 del %encJava%
 del %encName%.class
-echo USER ERROR: "!fNX!" is not a java file OR does Not exist!
+del %encName%
+
+
 pause
-exit
-) )
-
-del %encJava%
-del %encName%.class
-
 exit
 
