@@ -1,7 +1,7 @@
 /*HIDE*/
 import java.util.Scanner;
 
-public class Java002
+public class Java001
 {
 	public static void main(String[] args)
 	{
