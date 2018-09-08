@@ -1,4 +1,3 @@
-/*HIDE*/
 import java.util.Scanner;
 
 public class Java001
