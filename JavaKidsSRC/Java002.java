@@ -41,7 +41,7 @@ public class Java002
 		{
 			System.out.print("*");
 		}
-		System.out.println("\n\nEnd of the proram!\nThank you for using this simple program!");
+		System.out.println("\n\nEnd of the program!\nThank you for using this simple program!");
 		
 		
 		
